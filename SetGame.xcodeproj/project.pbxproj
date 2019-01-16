@@ -15,6 +15,8 @@
 		E9969D1721EAB7DA00C5A5A9 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = E9969D1621EAB7DA00C5A5A9 /* .gitignore */; };
 		E9969D1B21EAC5E100C5A5A9 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9969D1A21EAC5E100C5A5A9 /* Card.swift */; };
 		E9969D1E21EAC62100C5A5A9 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9969D1D21EAC62100C5A5A9 /* Game.swift */; };
+		E996CE3121EFE0540047F426 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E996CE3021EFE0540047F426 /* CardView.swift */; };
+		E996CE3321EFE0F10047F426 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = E996CE3221EFE0F10047F426 /* Types.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		E9969D1621EAB7DA00C5A5A9 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		E9969D1A21EAC5E100C5A5A9 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		E9969D1D21EAC62100C5A5A9 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		E996CE3021EFE0540047F426 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		E996CE3221EFE0F10047F426 /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				E9969D0621EAB6A700C5A5A9 /* ViewController.swift */,
+				E996CE3021EFE0540047F426 /* CardView.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -93,6 +98,7 @@
 			children = (
 				E9969D1A21EAC5E100C5A5A9 /* Card.swift */,
 				E9969D1D21EAC62100C5A5A9 /* Game.swift */,
+				E996CE3221EFE0F10047F426 /* Types.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -172,7 +178,9 @@
 				E9969D0721EAB6A700C5A5A9 /* ViewController.swift in Sources */,
 				E9969D1B21EAC5E100C5A5A9 /* Card.swift in Sources */,
 				E9969D0521EAB6A700C5A5A9 /* AppDelegate.swift in Sources */,
+				E996CE3321EFE0F10047F426 /* Types.swift in Sources */,
 				E9969D1E21EAC62100C5A5A9 /* Game.swift in Sources */,
+				E996CE3121EFE0540047F426 /* CardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
