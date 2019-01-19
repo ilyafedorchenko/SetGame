@@ -96,9 +96,9 @@
 		E9969D1C21EAC5F200C5A5A9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E996CE3221EFE0F10047F426 /* Types.swift */,
 				E9969D1A21EAC5E100C5A5A9 /* Card.swift */,
 				E9969D1D21EAC62100C5A5A9 /* Game.swift */,
-				E996CE3221EFE0F10047F426 /* Types.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
