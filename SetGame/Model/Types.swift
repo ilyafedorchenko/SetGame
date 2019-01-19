@@ -12,6 +12,8 @@ import Foundation
     case inDeck
     case onTheTable
     case selected
+    case selectionMatch
+    case selectionMismatch
     case matched
   }
 

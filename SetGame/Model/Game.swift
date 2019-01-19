@@ -85,8 +85,7 @@ class Game {
       }
     }
     
-    if !success {
-      success = true
+    if success {
       for propertyValue in propertyValueRange {
         if filteredCards.filter({$0.color == propertyValue}).count == 2 {
           success = false
@@ -95,8 +94,7 @@ class Game {
       }
     }
     
-    if !success {
-      success = true
+    if success {
       for propertyValue in propertyValueRange {
         if filteredCards.filter({$0.shading == propertyValue}).count == 2 {
           success = false
@@ -105,8 +103,7 @@ class Game {
       }
     }
     
-    if !success {
-      success = true
+    if success {
       for propertyValue in propertyValueRange {
         if filteredCards.filter({$0.numberOfSymbols == propertyValue}).count == 2 {
           success = false
@@ -131,22 +128,20 @@ class Game {
       print("\nError in func selectCard(\(cardId)), can't find this card\n")
       return
     }
+    changeStateForNumberOfCards(from: .selectionMismatch, to: .onTheTable, numberOfCards: numberOfCardsToSelect) ? print("changeState - Ok") : print("changeState - Err")
+    changeStateForNumberOfCards(from: .selectionMatch, to: .matched, numberOfCards: numberOfCardsToSelect) ? print("changeState - Ok") : print("changeState - Err")
     
     switch cards[card.key] {
       
     case .onTheTable?:
+      cards[card.key] = .selected
       if cards.filter({$1 == .selected}).count == numberOfCardsToSelect{
-        changeStateForNumberOfCards(from: .selected, to: .onTheTable, numberOfCards: numberOfCardsToSelect) ? print("changeState - Ok") : print("changeState - Err")
-        cards[card.key] = .selected
-      } else {
-        
-        cards[card.key] = .selected
-        
-        if cards.filter({$1 == .selected}).count == numberOfCardsToSelect && checkSet(){
-          changeStateForNumberOfCards(from: .selected, to: .matched, numberOfCards: numberOfCardsToSelect) ? print("changeState - Ok") : print("changeState - Err")
+        if checkSet() {
+          changeStateForNumberOfCards(from: .selected, to: .selectionMatch, numberOfCards: numberOfCardsToSelect) ? print("changeState - Ok") : print("changeState - Err")
+        } else {
+          changeStateForNumberOfCards(from: .selected, to: .selectionMismatch, numberOfCards: numberOfCardsToSelect) ? print("changeState - Ok") : print("changeState - Err")
         }
       }
-      
     case .selected?:
       cards[card.key] = .onTheTable
       

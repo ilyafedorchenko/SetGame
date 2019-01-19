@@ -30,9 +30,6 @@ class ViewController: UIViewController {
   @IBAction func serveCards(_ sender: UIButton) {
     game.serveCards()
     updateView()
-    if cardsCollection.filter({$0.buttonId != nil}).count == buttonsCollection.count {
-      moreCardsButton.isEnabled = false
-    }
     game.printStateForDebug()
   }
   
@@ -75,6 +72,11 @@ class ViewController: UIViewController {
         }
       }
     }
+    if cardsCollection.filter({$0.buttonId != nil}).count == buttonsCollection.count {
+      moreCardsButton.isEnabled = false
+    } else {
+      moreCardsButton.isEnabled = true
+    }
     printViewState()
   }
   
@@ -92,7 +94,6 @@ class ViewController: UIViewController {
   }
   
   private func updateButton(_ buttonId: Int) {
-    
     if let card = cardsCollection.filter({$0.buttonId == buttonId}).first {
       switch  card.state {
       case .onTheTable:
@@ -101,10 +102,17 @@ class ViewController: UIViewController {
         buttonsCollection[buttonId].isEnabled = true
         buttonsCollection[buttonId].layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
       case .selected:
-        highlightButton(buttonId)
+        buttonsCollection[buttonId].layer.borderWidth = 5.0
+        buttonsCollection[buttonId].layer.borderColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+      case .selectionMatch:
+        buttonsCollection[buttonId].layer.borderWidth = 5.0
+        buttonsCollection[buttonId].layer.borderColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
+      case .selectionMismatch:
+        buttonsCollection[buttonId].layer.borderWidth = 5.0
+        buttonsCollection[buttonId].layer.borderColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
       case .matched:
         hideButton(buttonId)
-        moreCardsButton.isEnabled = true
+//        moreCardsButton.isEnabled = true
         if let cardId = cardsCollection.index(of: card) {
           cardsCollection[cardId].buttonId = nil
         }
@@ -114,13 +122,8 @@ class ViewController: UIViewController {
     }
   }
   
-  private func highlightButton (_ buttonId: Int) {
-    buttonsCollection[buttonId].layer.borderWidth = 5.0
-    buttonsCollection[buttonId].layer.borderColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
-  }
-  
   private func hideButton(_ buttonId: Int) {
-    buttonsCollection[buttonId].backgroundColor = #colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1)
+    buttonsCollection[buttonId].backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
     buttonsCollection[buttonId].layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
     buttonsCollection[buttonId].setTitle("", for: .normal)
     buttonsCollection[buttonId].setAttributedTitle(NSAttributedString(string: ""), for: .normal)
