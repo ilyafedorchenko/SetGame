@@ -10,15 +10,12 @@ import Foundation
 
 class Game {
   
-  private let numberOfCardsToStart = 9, numberOfCardsToAdd = 3, numberOfCardsToSelect = 3, totalNumberOfCards = 81
+  private let numberOfCardsToStart = 12, numberOfCardsToAdd = 3, numberOfCardsToSelect = 3, totalNumberOfCards = 81
   private let propertyValueRange = 0...2
+  private let matchScore = 3, mismatchPenalty = -1, moreCardsPenalty = -1
   
-  var cards = [Card:CardState]() //TODO: protect in API?
-  
-//  private func hashValue(_ symbol:Int,_ color: Int,_ shading: Int,_ numberOfSymbols: Int,_ propertyRange: ClosedRange<Int>) -> Int {
-//    let count = Double(propertyRange.count)
-//    return symbol * Int(pow(count,3.0)) + color * Int(pow(count,2.0)) + shading * Int(pow(count,1.0)) + numberOfSymbols
-//  }
+  var cards = [Card:CardState]()
+  var score = 0
   
   init() {
     
@@ -129,8 +126,12 @@ class Game {
       return
     }
     changeStateForNumberOfCards(from: .selectionMismatch, to: .onTheTable, numberOfCards: numberOfCardsToSelect) ? print("changeState - Ok") : print("changeState - Err")
-    changeStateForNumberOfCards(from: .selectionMatch, to: .matched, numberOfCards: numberOfCardsToSelect) ? print("changeState - Ok") : print("changeState - Err")
-    
+    if changeStateForNumberOfCards(from: .selectionMatch, to: .matched, numberOfCards: numberOfCardsToSelect) {
+      print("changeState - Ok")
+      serveCards()
+    } else {
+      print("changeState - Err")
+    }
     switch cards[card.key] {
       
     case .onTheTable?:
@@ -138,8 +139,10 @@ class Game {
       if cards.filter({$1 == .selected}).count == numberOfCardsToSelect{
         if checkSet() {
           changeStateForNumberOfCards(from: .selected, to: .selectionMatch, numberOfCards: numberOfCardsToSelect) ? print("changeState - Ok") : print("changeState - Err")
+          score += matchScore
         } else {
           changeStateForNumberOfCards(from: .selected, to: .selectionMismatch, numberOfCards: numberOfCardsToSelect) ? print("changeState - Ok") : print("changeState - Err")
+          score += mismatchPenalty
         }
       }
     case .selected?:
@@ -150,13 +153,13 @@ class Game {
     }
   }
   
-  
-  
   func serveCards() {
     if !changeStateForNumberOfCards(from: .inDeck, to: .onTheTable, numberOfCards: numberOfCardsToAdd) {
       print("\nError in func serveCards(\(numberOfCardsToAdd)), no more cards to serve\n")
       return
     } else {
+      
+      score += moreCardsPenalty
       
       print("======================= DECK ========================")
       let cards2 = self.cards.filter({$1 == .inDeck}).sorted(by: {$0.key.hashValue < $1.key.hashValue})
