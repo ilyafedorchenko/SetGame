@@ -128,7 +128,7 @@ class Game {
     changeStateForNumberOfCards(from: .selectionMismatch, to: .onTheTable, numberOfCards: numberOfCardsToSelect) ? print("changeState - Ok") : print("changeState - Err")
     if changeStateForNumberOfCards(from: .selectionMatch, to: .matched, numberOfCards: numberOfCardsToSelect) {
       print("changeState - Ok")
-      serveCards(playerCall: false)
+      serveCards()
     } else {
       print("changeState - Err")
     }
@@ -137,8 +137,7 @@ class Game {
     case .onTheTable?:
       cards[card.key] = .selected
       if cards.filter({$1 == .selected}).count == numberOfCardsToSelect{
-        // FIXME: debugging switch
-        if /*checkSet()*/ true {
+        if checkSet() {
           changeStateForNumberOfCards(from: .selected, to: .selectionMatch, numberOfCards: numberOfCardsToSelect) ? print("changeState - Ok") : print("changeState - Err")
           score += matchScore
         } else {
@@ -154,12 +153,13 @@ class Game {
     }
   }
   
-  func serveCards(playerCall: Bool) {
+  func serveCards() {
     if !changeStateForNumberOfCards(from: .inDeck, to: .onTheTable, numberOfCards: numberOfCardsToAdd) {
       print("\nError in func serveCards(\(numberOfCardsToAdd)), no more cards to serve\n")
       return
     } else {
-      if playerCall {score += moreCardsPenalty}
+      
+      score += moreCardsPenalty
       
       print("======================= DECK ========================")
       let cards2 = self.cards.filter({$1 == .inDeck}).sorted(by: {$0.key.hashValue < $1.key.hashValue})
@@ -199,32 +199,5 @@ class Game {
     }
     print("================== \(cards3.count) ==================\n")
   }
-}
-
-extension CardState {
-  
-  mutating func switchToTheNextState(partOfSet: Bool?) {
-    switch self {
-    case .inDeck:
-      self = .onTheTable
-    case .onTheTable:
-      self = .selected
-    case .selected:
-      if let flag = partOfSet {
-        if flag {
-          self = .selectionMatch
-        } else {
-          self = .selectionMismatch
-        }
-      }
-    case .selectionMatch:
-      self = .matched
-    case .selectionMismatch:
-      self = .onTheTable
-    case .matched:
-      print("Debug message: \(self) is final state")
-    }
-  }
-  
 }
 
