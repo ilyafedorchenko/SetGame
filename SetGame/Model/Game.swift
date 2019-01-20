@@ -128,7 +128,7 @@ class Game {
     changeStateForNumberOfCards(from: .selectionMismatch, to: .onTheTable, numberOfCards: numberOfCardsToSelect) ? print("changeState - Ok") : print("changeState - Err")
     if changeStateForNumberOfCards(from: .selectionMatch, to: .matched, numberOfCards: numberOfCardsToSelect) {
       print("changeState - Ok")
-      serveCards()
+      serveCards(playerCall: false)
     } else {
       print("changeState - Err")
     }
@@ -137,7 +137,7 @@ class Game {
     case .onTheTable?:
       cards[card.key] = .selected
       if cards.filter({$1 == .selected}).count == numberOfCardsToSelect{
-        if checkSet() {
+        if /*checkSet()*/ true {
           changeStateForNumberOfCards(from: .selected, to: .selectionMatch, numberOfCards: numberOfCardsToSelect) ? print("changeState - Ok") : print("changeState - Err")
           score += matchScore
         } else {
@@ -153,13 +153,13 @@ class Game {
     }
   }
   
-  func serveCards() {
+  func serveCards(playerCall: Bool) {
     if !changeStateForNumberOfCards(from: .inDeck, to: .onTheTable, numberOfCards: numberOfCardsToAdd) {
       print("\nError in func serveCards(\(numberOfCardsToAdd)), no more cards to serve\n")
       return
     } else {
       
-      score += moreCardsPenalty
+      if playerCall {score += moreCardsPenalty}
       
       print("======================= DECK ========================")
       let cards2 = self.cards.filter({$1 == .inDeck}).sorted(by: {$0.key.hashValue < $1.key.hashValue})

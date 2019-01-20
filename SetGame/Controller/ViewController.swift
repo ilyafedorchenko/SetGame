@@ -28,7 +28,7 @@ class ViewController: UIViewController {
   }
   
   @IBAction func serveCards(_ sender: UIButton) {
-    game.serveCards()
+    game.serveCards(playerCall: true)
     updateView()
     game.printStateForDebug()
   }
@@ -91,7 +91,7 @@ class ViewController: UIViewController {
   private func updateCardsCollection() {
     for index in cardsCollection.indices {
       cardsCollection[index].state = game.cards.filter({$0.key.hashValue == cardsCollection[index].hashValue}).first?.value ?? .inDeck
-      if cardsCollection[index].state == .matched {
+      if (cardsCollection[index].state == .matched) && (cardsCollection.filter({$0.state == .inDeck}).count > 0){
         cardsCollection[index].buttonId = nil
       }
     }
@@ -105,6 +105,7 @@ class ViewController: UIViewController {
         buttonsCollection[buttonId].backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         buttonsCollection[buttonId].isEnabled = true
         buttonsCollection[buttonId].layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+        buttonsCollection[buttonId].layer.cornerRadius = 8.0
       case .selected:
         buttonsCollection[buttonId].layer.borderWidth = 5.0
         buttonsCollection[buttonId].layer.borderColor = #colorLiteral(red: 0.7254902124, green: 0.4784313738, blue: 0.09803921729, alpha: 1)
