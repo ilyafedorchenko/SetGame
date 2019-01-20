@@ -28,7 +28,7 @@ class ViewController: UIViewController {
   }
   
   @IBAction func serveCards(_ sender: UIButton) {
-    game.serveCards()
+    game.serveCards(playerCall: true)
     updateView()
     game.printStateForDebug()
   }
@@ -74,9 +74,10 @@ class ViewController: UIViewController {
     }
     if cardsCollection.filter({$0.buttonId != nil}).count == buttonsCollection.count {
       moreCardsButton.isEnabled = false
-    } else {
-      moreCardsButton.isEnabled = true
     }
+//    else {
+//      moreCardsButton.isEnabled = true
+//    }
     scoreLabel.text = "Score: \(game.score)"
     printViewState()
   }
@@ -105,6 +106,7 @@ class ViewController: UIViewController {
         buttonsCollection[buttonId].backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         buttonsCollection[buttonId].isEnabled = true
         buttonsCollection[buttonId].layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+        buttonsCollection[buttonId].layer.cornerRadius = 8.0
       case .selected:
         buttonsCollection[buttonId].layer.borderWidth = 5.0
         buttonsCollection[buttonId].layer.borderColor = #colorLiteral(red: 0.7254902124, green: 0.4784313738, blue: 0.09803921729, alpha: 1)
