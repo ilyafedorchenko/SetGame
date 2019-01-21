@@ -177,6 +177,11 @@ class Game {
     }
   }
   
+  func getCardId(symbol: Int, color: Int, shading: Int, numberOfSymbols: Int) -> Int? {
+    let card = cards.filter({$0.key.symbol == symbol && $0.key.color == color && $0.key.shading == shading && $0.key.numberOfSymbols == numberOfSymbols}).first
+    return card?.key.hashValue
+  }
+  
   func printStateForDebug() {
     print("======================= SELECTED ========================")
     let cards4 = self.cards.filter({$1 == .selected}).sorted(by: {$0.key.hashValue < $1.key.hashValue})
