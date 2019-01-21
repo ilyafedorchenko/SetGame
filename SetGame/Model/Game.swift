@@ -37,17 +37,17 @@ class Game {
     
         print("======================= INIT ========================")
         let cards1 = self.cards.sorted(by: {$0.key.hashValue < $1.key.hashValue})
-        for card in cards1 {
-          print("\(card.key.hashValue) - \(card.key.symbol) - \(card.key.color) - \(card.key.shading) - \(card.key.numberOfSymbols) - \(card.value)")
-        }
+//        for card in cards1 {
+//          print("\(card.key.hashValue) - \(card.key.symbol) - \(card.key.color) - \(card.key.shading) - \(card.key.numberOfSymbols) - \(card.value)")
+//        }
         print("================== \(cards1.count) ==================\n")
     
-        print("======================= DECK ========================")
-        let cards2 = self.cards.filter({$1 == .inDeck}).sorted(by: {$0.key.hashValue < $1.key.hashValue})
-        for card in cards2 {
-          print("\(card.key.hashValue) - \(card.key.symbol) - \(card.key.color) - \(card.key.shading) - \(card.key.numberOfSymbols) - \(card.value)")
-        }
-        print("================== \(cards2.count) ==================\n")
+//        print("======================= DECK ========================")
+//        let cards2 = self.cards.filter({$1 == .inDeck}).sorted(by: {$0.key.hashValue < $1.key.hashValue})
+//        for card in cards2 {
+//          print("\(card.key.hashValue) - \(card.key.symbol) - \(card.key.color) - \(card.key.shading) - \(card.key.numberOfSymbols) - \(card.value)")
+//        }
+//        print("================== \(cards2.count) ==================\n")
     
         print("======================= TABLE ========================")
         let cards3 = self.cards.filter({$1 == .onTheTable}).sorted(by: {$0.key.hashValue < $1.key.hashValue})
@@ -134,10 +134,10 @@ class Game {
     }
     switch cards[card.key] {
       
-    case .onTheTable?:
+    case .onTheTable?, .hint?:
       cards[card.key] = .selected
       if cards.filter({$1 == .selected}).count == numberOfCardsToSelect{
-        if /*checkSet()*/ true {
+        if checkSet() {
           changeStateForNumberOfCards(from: .selected, to: .selectionMatch, numberOfCards: numberOfCardsToSelect) ? print("changeState - Ok") : print("changeState - Err")
           score += matchScore
         } else {
@@ -153,6 +153,18 @@ class Game {
     }
   }
   
+  func makeHint(with hints:[Card]) {
+    for hintCard in hints {
+      guard let card = cards.filter({$0.key.hashValue == hintCard.hashValue}).first else {
+        print("\nError in func selectCard(\(hintCard.hashValue)), can't find this card\n")
+        return
+      }
+      if cards[card.key] != .selected {
+        cards[card.key] = .hint
+      }
+    }
+  }
+  
   func serveCards(playerCall: Bool) {
     if !changeStateForNumberOfCards(from: .inDeck, to: .onTheTable, numberOfCards: numberOfCardsToAdd) {
       print("\nError in func serveCards(\(numberOfCardsToAdd)), no more cards to serve\n")
@@ -161,12 +173,12 @@ class Game {
       
       if playerCall {score += moreCardsPenalty}
       
-      print("======================= DECK ========================")
-      let cards2 = self.cards.filter({$1 == .inDeck}).sorted(by: {$0.key.hashValue < $1.key.hashValue})
-      for card in cards2 {
-        print("\(card.key.hashValue) - \(card.key.symbol) - \(card.key.color) - \(card.key.shading) - \(card.key.numberOfSymbols) - \(card.value)")
-      }
-      print("================== \(cards2.count) ==================\n")
+//      print("======================= DECK ========================")
+//      let cards2 = self.cards.filter({$1 == .inDeck}).sorted(by: {$0.key.hashValue < $1.key.hashValue})
+//      for card in cards2 {
+//        print("\(card.key.hashValue) - \(card.key.symbol) - \(card.key.color) - \(card.key.shading) - \(card.key.numberOfSymbols) - \(card.value)")
+//      }
+//      print("================== \(cards2.count) ==================\n")
 
       print("======================= TABLE ========================")
       let cards3 = self.cards.filter({$1 == .onTheTable}).sorted(by: {$0.key.hashValue < $1.key.hashValue})

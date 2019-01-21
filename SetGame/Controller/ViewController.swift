@@ -10,11 +10,19 @@ import UIKit
 
 class ViewController: UIViewController {
   
-  private var game = Game.init()
+//  private var game = Game.init()
+  private var game = GameWithSetSearcher()
   private var cardsCollection = [CardView]()
   
   @IBOutlet weak var moreCardsButton: UIButton!
   @IBOutlet var buttonsCollection: [UIButton]!
+  
+  @IBAction func makeHint(_ sender: UIButton) {
+    if let cards = game.getSetOnTheTable().first {
+      game.makeHint(with: cards)
+      updateView()
+    }
+  }
   
   @IBAction func touchCard(_ sender: UIButton) {
     let buttonId = buttonsCollection.index(of: sender)
@@ -34,7 +42,7 @@ class ViewController: UIViewController {
   }
   
   @IBAction func newGame(_ sender: UIButton) {
-    let newGame = Game.init()
+    let newGame = GameWithSetSearcher()
     game = newGame
     for buttonId in buttonsCollection.indices {
       hideButton(buttonId)
@@ -106,6 +114,9 @@ class ViewController: UIViewController {
         buttonsCollection[buttonId].isEnabled = true
         buttonsCollection[buttonId].layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
         buttonsCollection[buttonId].layer.cornerRadius = 8.0
+      case .hint:
+        buttonsCollection[buttonId].layer.borderWidth = 5.0
+        buttonsCollection[buttonId].layer.borderColor = #colorLiteral(red: 0.7254902124, green: 0.4784313738, blue: 0.09803921729, alpha: 1)
       case .selected:
         buttonsCollection[buttonId].layer.borderWidth = 5.0
         buttonsCollection[buttonId].layer.borderColor = #colorLiteral(red: 0.7254902124, green: 0.4784313738, blue: 0.09803921729, alpha: 1)
@@ -120,7 +131,7 @@ class ViewController: UIViewController {
         buttonsCollection[buttonId].backgroundColor = #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1)
       case .matched:
         hideButton(buttonId)
-//        moreCardsButton.isEnabled = true
+      //        moreCardsButton.isEnabled = true
       default:
         print("updateButton: incorrect state .inDeck")
       }

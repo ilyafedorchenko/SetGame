@@ -11,6 +11,7 @@ import Foundation
   enum CardState {
     case inDeck
     case onTheTable
+    case hint
     case selected
     case selectionMatch
     case selectionMismatch
