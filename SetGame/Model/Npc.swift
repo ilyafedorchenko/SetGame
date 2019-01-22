@@ -12,7 +12,7 @@ class GameWithSetSearcher: Game {
   
 //  let cardPropertiesNumber = propertyValueRange.count
   
-  func calcThirdCard(card1: Card, card2: Card) -> Card? {
+  private func calcThirdCard(card1: Card, card2: Card) -> Card? {
     let symbol =          2 * (card1.symbol + card2.symbol) % 3
     let color =           2 * (card1.color + card2.color) % 3
     let shading =         2 * (card1.shading + card2.shading) % 3
@@ -34,7 +34,7 @@ class GameWithSetSearcher: Game {
     return card3
   }
   
-  func createPairsCombinations(from cards: [Card]) -> [[Card]] {
+  private func createPairsCombinations(from cards: [Card]) -> [[Card]] {
     var cardsToTake = cards
     var pair: [Card]
     var pairs = [[Card]]()
@@ -83,6 +83,10 @@ class GameWithSetSearcher: Game {
       print("---------------------------------------")
     }
     return setsOnTheTable
+  }
+  
+  func checkHint() -> Int {
+    return getSetOnTheTable().count
   }
   
   

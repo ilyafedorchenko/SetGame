@@ -16,6 +16,8 @@ class ViewController: UIViewController {
   
   @IBOutlet weak var moreCardsButton: UIButton!
   @IBOutlet var buttonsCollection: [UIButton]!
+  @IBOutlet weak var makeHintButton: UIButton!
+  
   
   @IBAction func makeHint(_ sender: UIButton) {
     if let cards = game.getSetOnTheTable().first {
@@ -32,7 +34,6 @@ class ViewController: UIViewController {
       game.printStateForDebug()
       printViewState()
     }
-    
   }
   
   @IBAction func serveCards(_ sender: UIButton) {
@@ -87,6 +88,16 @@ class ViewController: UIViewController {
     }
     scoreLabel.text = "Score: \(game.score)"
     printViewState()
+    
+    let numberOfHints = game.checkHint()
+    if  numberOfHints > 0 {
+      makeHintButton.isEnabled = true
+      makeHintButton.backgroundColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+    } else {
+      makeHintButton.isEnabled = false
+      makeHintButton.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+    }
+    makeHintButton.setTitle("Hints: \(numberOfHints)", for: .normal)
   }
   
   private func createCardsCollection() {

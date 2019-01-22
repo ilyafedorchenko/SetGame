@@ -371,6 +371,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="makeHintButton" destination="LD6-5l-ug8" id="KUf-Sn-V3F"/>
                         <outlet property="moreCardsButton" destination="O03-Ig-FJm" id="Y9j-FK-Vw6"/>
                         <outlet property="scoreLabel" destination="xRY-rS-euZ" id="PbS-Cd-5Wf"/>
                         <outletCollection property="buttonsCollection" destination="9pf-HS-rQl" collectionClass="NSMutableArray" id="9xK-MH-dl2"/>
